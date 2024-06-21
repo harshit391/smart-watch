@@ -4,17 +4,8 @@ const Watch = ({watch}) => {
 
     const [timer, setTimer] = useState(watch.timer);
     const [isActive, setIsActive] = useState(false);
-    const [currTime, setCurrentTime] = useState("00:00:00");
-
-    const convertTime = () => {
-        let hours = Math.floor(timer / 3600);
-        let minutes = Math.floor((timer % 3600) / 60);
-        let seconds = timer % 60;
-        setCurrentTime(`${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`);
-    }
 
     useEffect(() => {
-        convertTime();
         const storage = window.localStorage;
         const watchData = storage.getItem('watches');
         const thisWatch = JSON.parse(watchData).find((w) => w.id === watch.id);
@@ -58,7 +49,7 @@ const Watch = ({watch}) => {
         <div className="gap-3 d-flex flex-column card p-4" style={{border: "2px solid black"}}>
             <h1 className="card-title text-center">{watch.name}</h1>
             <div className="container d-flex flex-column gap-2">
-                <h2 className="text-center">{currTime}</h2>
+                <h2 className="text-center">{(timer/60).toFixed(2) + " Minutes"}</h2>
                 <div className="d-flex gap-2 justify-content-center">
                     <button onClick={handleStart} className="btn-start btn btn-success">Start</button>
                     <button onClick={handleStop} className="btn-stop btn btn-warning">Pause</button>
